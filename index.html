@@ -14,6 +14,14 @@
 </style>
   <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
 <script src="https://js.arcgis.com/4.5/"></script>
+
+<script>
+  var dojoConfig = {
+    has: {
+      "esri-featurelayer-webgl": 1
+    }
+  };
+</script>
   
   <script>
 require([
@@ -35,7 +43,10 @@ require([
       content: "{*}"
     }
   });
-  
+
+  // Create a cluster layer for a point feature service
+
+
   map.add(featureLayer);
   
   var view = new MapView({
