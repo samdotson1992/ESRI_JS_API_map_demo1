@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Intro to MapView - Create a 2D map</title>
+<title>US breweries</title>
 <style>
   html, body, #viewDiv {
     padding: 0;
@@ -12,33 +12,42 @@
     width: 100%;
   }
 </style>
-<link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
 <script src="https://js.arcgis.com/4.5/"></script>
-<script>
+  
+  <script>
 require([
   "esri/Map",
-  "esri/views/SceneView",
-  "esri/layers/TileLayer",  
+  "esri/views/MapView",
+  "esri/layers/FeatureLayer",
   "dojo/domReady!"
-], function(Map, TileLayer, SceneView){
+], function(Map, MapView, FeatureLayer) {
+  
   var map = new Map({
-    basemap: "streets"
+    basemap: "topo-vector"
   });
 
-  var transportationLyr = new TileLayer({
-      url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
-    });
-
+  var featureLayer = new FeatureLayer({
+    url: "https://services8.arcgis.com/IjlBw3VAeHTfVKpS/ArcGIS/rest/services/breweries/FeatureServer",
+    outFields: ["*"],
+    popupTemplate: {
+      title: "{NAME}",
+      content: "{*}"
+    }
+  });
+  
+  map.add(featureLayer);
+  
   var view = new MapView({
-    container: "viewDiv",  // Reference to the scene div created in step 5
-    map: map,  // Reference to the map object created before the scene
-    zoom: 4,  // Sets zoom level based on level of detail (LOD)
-    center: [15, 65]  // Sets center point of view using longitude,latitude
+    container: "viewDiv",  
+    map: map,
+    center: [-97.60,34.05],
+    zoom: 3                  
   });
-});
-</script>
+
+});</script>
 </head>
 <body>
   <div id="viewDiv"></div>
 </body>
-</html>
+</html> 
