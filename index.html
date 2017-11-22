@@ -1,68 +1,44 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
-    <title>CSVLayer sample</title>
-    <link rel="stylesheet" href="https://js.arcgis.com/3.22/esri/css/esri.css">
-    <style>
-      html, body, #map {
-        height: 100%;
-        width: 100%;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        background-color: #FFF;
-        overflow: hidden;
-        font-family: "Trebuchet MS";
-      }
-    </style>
-    <script src="https://js.arcgis.com/3.22/"></script>
-    <script>
-      var map, csv;
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Intro to MapView - Create a 2D map</title>
+<style>
+  html, body, #viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+  }
+</style>
+<link rel="stylesheet" href="https://js.arcgis.com/4.5/esri/css/main.css">
+<script src="https://js.arcgis.com/4.5/"></script>
+<script>
+require([
+  "esri/Map",
+  "esri/views/SceneView",
+  "esri/layers/TileLayer",  
+  "dojo/domReady!"
+], function(Map, TileLayer, SceneView){
+  var map = new Map({
+    basemap: "streets"
+  });
 
-      require([
-        "esri/map", 
-        "esri/layers/CSVLayer",
-        "esri/Color",
-        "esri/symbols/SimpleMarkerSymbol",
-        "esri/renderers/SimpleRenderer",
-        "esri/InfoTemplate",
-        "esri/config",
-        "dojo/domReady!"
-      ], function(
-        Map, CSVLayer, Color, SimpleMarkerSymbol, SimpleRenderer, InfoTemplate, esriConfig
-      ) {
-        
-        // Use CORS
-        esriConfig.defaults.io.corsEnabledServers.push("earthquake.usgs.gov"); // supports CORS
+  var transportationLyr = new TileLayer({
+      url: "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer"
+    });
 
-        // Use proxy if the server doesn't support CORS
-         esriConfig.defaults.io.proxyUrl = "/proxy/";  
-        
-        map = new Map("map", {
-          basemap: "gray",
-          center: [ -87, 36 ],
-          zoom: 6
-        });
-        csv = new CSVLayer("https://docs.google.com/spreadsheets/d/e/2PACX-1vRUmy213AfBYup6u3bea_qIPNlhi_GLl3GtA057ZsLMsW7pNiwGcg6wWLQHfGwk6aDjmFiOjg-5ykYr/pub?gid=1709889541&single=true&output=csv", {
-          copyright: "USGS.gov"
-        });
-        var orangeRed = new Color([238, 69, 0, 0.5]); // hex is #ff4500
-        var marker = new SimpleMarkerSymbol("solid", 15, null, orangeRed);
-        var renderer = new SimpleRenderer(marker);
-        csv.setRenderer(renderer);
-        var template = new InfoTemplate("${type}", "${place}");
-        csv.setInfoTemplate(template);
-        map.addLayer(csv);
-      });
-    </script>
-  </head>
-
-  <body>
-    <div id="map"></div>
-  </body>
+  var view = new MapView({
+    container: "viewDiv",  // Reference to the scene div created in step 5
+    map: map,  // Reference to the map object created before the scene
+    zoom: 4,  // Sets zoom level based on level of detail (LOD)
+    center: [15, 65]  // Sets center point of view using longitude,latitude
+  });
+});
+</script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
 </html>
- 
-          
