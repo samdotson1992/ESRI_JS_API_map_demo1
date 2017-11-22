@@ -39,14 +39,14 @@
         esriConfig.defaults.io.corsEnabledServers.push("earthquake.usgs.gov"); // supports CORS
 
         // Use proxy if the server doesn't support CORS
-        // esriConfig.defaults.io.proxyUrl = "/proxy/";  
+         esriConfig.defaults.io.proxyUrl = "/proxy/";  
         
         map = new Map("map", {
           basemap: "gray",
           center: [ -87, 36 ],
           zoom: 6
         });
-        csv = new CSVLayer("https://github.com/samdotson1992/ESRI_JS_API_map_demo1/blob/master/Offbeat%20Tourist%20Attractions%20For_TN.csv", {
+        csv = new CSVLayer("https://docs.google.com/spreadsheets/d/e/2PACX-1vRUmy213AfBYup6u3bea_qIPNlhi_GLl3GtA057ZsLMsW7pNiwGcg6wWLQHfGwk6aDjmFiOjg-5ykYr/pub?gid=1709889541&single=true&output=csv", {
           copyright: "USGS.gov"
         });
         var orangeRed = new Color([238, 69, 0, 0.5]); // hex is #ff4500
